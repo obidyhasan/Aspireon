@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 
 const RootLayout = () => {
   return (
-    <div className="max-w-7xl mx-auto px-5 font-jakarta">
+    <div className="font-jakarta">
       <Navbar></Navbar>
       <Outlet></Outlet>
     </div>

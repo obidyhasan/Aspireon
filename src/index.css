@@ -8,3 +8,7 @@
   font-weight: 600;
   color: #374151;
 }
+
+.height-screen {
+  min-height: calc(100vh - 64px);
+}
