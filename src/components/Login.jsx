@@ -1,11 +1,36 @@
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
+  const { handelLogin, handelGoogleAuth } = useContext(AuthContext);
+
+  function handelOnSubmit(e) {
+    e.preventDefault();
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    if (password.length < 6) {
+      alert("Password will be at least 6 char");
+      return;
+    }
+
+    handelLogin(email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        const errMessage = error.message;
+        console.log(errMessage.split("(")[1].split(")")[0]);
+      });
+  }
+
   return (
     <div className="w-full height-screen flex items-center justify-center bg-base-200">
       <div className="my-8 card bg-base-100 w-full max-w-md rounded">
-        <form className="card-body">
+        <form onSubmit={handelOnSubmit} className="card-body">
           <label className="label block">
             <h1 className="font-bold text-2xl text-center">Login</h1>
           </label>
@@ -61,7 +86,10 @@ const Login = () => {
         <div className="divider mx-8 -mt-5 ">
           <span className="text-sm">Or</span>
         </div>
-        <button className="btn mx-8 mb-8 mt-2 btn-outline rounded border-primary text-primary">
+        <button
+          onClick={handelGoogleAuth}
+          className="btn mx-8 mb-8 mt-2 btn-outline rounded border-primary text-primary"
+        >
           <FcGoogle className="w-5 h-5" /> Login with Google
         </button>
       </div>

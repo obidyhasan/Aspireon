@@ -1,11 +1,56 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { FaRegEye } from "react-icons/fa6";
+import { FaRegEyeSlash } from "react-icons/fa6";
+import { useContext, useState } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Register = () => {
+  const { handelRegister, handelGoogleAuth, handelUpdateProfile } =
+    useContext(AuthContext);
+  const [hide, setHide] = useState(true);
+  const navigate = useNavigate();
+
+  function handelRegisterSubmit(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const photo = form.photo.value;
+    const password = form.password.value;
+
+    handelRegister(email, password)
+      .then((result) => {
+        console.log(result.user);
+        handelUpdateProfile({ displayName: name, photoURL: photo })
+          .then(() => {
+            console.log("Update Successfully");
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
+
+  function handelGoogleRegister() {
+    handelGoogleAuth()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
+
   return (
     <div className="w-full height-screen flex items-center justify-center bg-base-200">
       <div className="my-8 card bg-base-100 w-full max-w-md rounded">
-        <form className="card-body">
+        <form onSubmit={handelRegisterSubmit} className="card-body">
           <label className="label block">
             <h1 className="font-bold text-2xl text-center">Create Account</h1>
           </label>
@@ -55,13 +100,22 @@ const Register = () => {
             <label className="label">
               <span className="label-text font-medium">Password</span>
             </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="password"
-              className="input input-bordered rounded"
-              required
-            />
+            <label className="input input-bordered rounded flex items-center gap-2">
+              <input
+                type={hide ? "password" : "text"}
+                name="password"
+                placeholder="password"
+                className="grow"
+                required
+              />
+              <div className="cursor-pointer" onClick={() => setHide(!hide)}>
+                {hide ? (
+                  <FaRegEye className="opacity-85" />
+                ) : (
+                  <FaRegEyeSlash className="opacity-85" />
+                )}
+              </div>
+            </label>
           </div>
           <div className="form-control mt-3">
             <button className="btn rounded bg-primary text-white hover:bg-primaryDark">
@@ -80,7 +134,10 @@ const Register = () => {
         <div className="divider mx-8 -mt-5 ">
           <span className="text-sm">Or</span>
         </div>
-        <button className="btn mx-8 mb-8 mt-2 btn-outline rounded border-primary text-primary">
+        <button
+          onClick={handelGoogleRegister}
+          className="btn mx-8 mb-8 mt-2 btn-outline rounded border-primary text-primary"
+        >
           <FcGoogle className="w-5 h-5" /> Register with Google
         </button>
       </div>
