@@ -2,7 +2,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Service = ({ service }) => {
-  const { id, counselor, image, serviceName, pricing, category } = service;
+  const { id, description, counselor, image, serviceName, pricing, category } =
+    service;
 
   return (
     <div className="border p-4 rounded flex flex-col gap-3">
@@ -15,6 +16,8 @@ const Service = ({ service }) => {
           />
         </figure>
         <h1 className="font-semibold text-lg">{serviceName}</h1>
+        <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
+
         <h3 className="font-medium">{counselor}</h3>
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm bg-secondary py-1 px-2 rounded">{category}</p>

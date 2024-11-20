@@ -28,7 +28,7 @@ const ServiceDetails = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-5 my-5 grid gap-5 grid-cols-1 lg:grid-cols-4">
+    <div className="max-w-7xl mx-auto px-5 my-5 grid gap-5 grid-cols-1 lg:grid-cols-4 mb-20">
       <div className="lg:col-span-3 space-y-3 border p-4 rounded">
         <figure>
           <img src={image} className="rounded w-full" alt="" />
@@ -76,7 +76,7 @@ const ServiceDetails = () => {
               <div className="flex gap-2 items-center">
                 <img
                   src={user.photoURL}
-                  className="w-8 h-8 rounded object-cover"
+                  className="w-8 h-8 rounded-full object-cover"
                   alt=""
                 />
                 <h2 className="text-sm font-medium text-gray-500">

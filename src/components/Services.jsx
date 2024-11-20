@@ -12,9 +12,9 @@ const Services = () => {
 
   return (
     <div>
-      <div className="space-y-2">
-        <h1 className="text-center font-bold text-2xl">
-          Explore Our Expert Career Services
+      <div className="space-y-3">
+        <h1 className="text-center font-bold text-3xl">
+          Expert Career <span className="text-primary">Services</span>
         </h1>
         <p className="max-w-2xl text-sm text-center mx-auto text-gray-600">
           Unlock your potential with tailored career guidance, skill
