@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 
 const Register = () => {
-  const { handelRegister, handelGoogleAuth, handelUpdateProfile } =
+  const { handelRegister, handelGoogleAuth, handelUpdateProfile, setLoading } =
     useContext(AuthContext);
   const [hide, setHide] = useState(true);
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const Register = () => {
         console.log(result.user);
         handelUpdateProfile({ displayName: name, photoURL: photo })
           .then(() => {
+            setLoading(false);
             console.log("Update Successfully");
             navigate("/");
           })

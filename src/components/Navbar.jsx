@@ -3,19 +3,21 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 
 const Navbar = () => {
+  const { user, handelLogout } = useContext(AuthContext);
+
   const navbarLink = (
     <div className="flex gap-3 text-gray-500 flex-col lg:flex-row font-medium activeNav">
       <NavLink className="hover:text-gray-700" to={"/"}>
         Home
       </NavLink>
 
-      <NavLink className="hover:text-gray-700" to={"/profile"}>
-        My Profile
-      </NavLink>
+      {user && (
+        <NavLink className="hover:text-gray-700" to={"/profile"}>
+          My Profile
+        </NavLink>
+      )}
     </div>
   );
-
-  const { user, handelLogout } = useContext(AuthContext);
 
   return (
     <div className="bg-base-100 sticky top-0 z-10">

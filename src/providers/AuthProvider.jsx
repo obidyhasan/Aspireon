@@ -26,6 +26,7 @@ const AuthProvider = ({ children }) => {
     handelUpdateProfile,
     handelGoogleAuth,
     loading,
+    setLoading,
   };
 
   useEffect(() => {
@@ -44,10 +45,12 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   function handelLogin(email, password) {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   }
 
   function handelRegister(email, password) {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
@@ -56,6 +59,7 @@ const AuthProvider = ({ children }) => {
   }
 
   function handelUpdateProfile(data) {
+    setLoading(true);
     return updateProfile(auth.currentUser, data);
   }
 
