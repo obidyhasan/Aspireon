@@ -4,12 +4,30 @@ import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { useContext, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const { handelRegister, handelGoogleAuth, handelUpdateProfile, setLoading } =
     useContext(AuthContext);
   const [hide, setHide] = useState(true);
   const navigate = useNavigate();
+
+  function showErrorAlert(message) {
+    Swal.fire({
+      title: "Error!",
+      text: message,
+      icon: "error",
+    });
+  }
+
+  function showSuccessAlert(message) {
+    Swal.fire({
+      title: "Success",
+      text: message,
+      icon: "success",
+    });
+  }
 
   function handelRegisterSubmit(e) {
     e.preventDefault();
@@ -20,21 +38,39 @@ const Register = () => {
     const photo = form.photo.value;
     const password = form.password.value;
 
+    const uppercaseRegex = /^(?=.*[A-Z]).*$/;
+    const lowercaseRegex = /^(?=.*[a-z]).*$/;
+
+    if (password.length < 6) {
+      showErrorAlert("Password length must be at least 6 character");
+      return;
+    }
+    if (!uppercaseRegex.test(password)) {
+      showErrorAlert("Must have an Uppercase letter in the password");
+      return;
+    }
+
+    if (!lowercaseRegex.test(password)) {
+      showErrorAlert("Must have a Lowercase letter in the password  ");
+      return;
+    }
+
     handelRegister(email, password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
+        showSuccessAlert("Register Successfully");
         handelUpdateProfile({ displayName: name, photoURL: photo })
           .then(() => {
             setLoading(false);
-            console.log("Update Successfully");
             navigate("/");
           })
           .catch((error) => {
-            console.log(error.message);
+            setLoading(false);
+            showErrorAlert(error.message);
           });
       })
       .catch((error) => {
-        console.log(error.message);
+        setLoading(false);
+        showErrorAlert(error.message);
       });
   }
 
@@ -42,14 +78,19 @@ const Register = () => {
     handelGoogleAuth()
       .then(() => {
         navigate("/");
+        showSuccessAlert("Register Successfully");
       })
-      .catch((error) => {
-        console.log(error.message);
+      .catch(() => {
+        showErrorAlert("Something went wrong");
       });
   }
 
   return (
     <div className="w-full height-screen flex items-center justify-center bg-base-200">
+      <Helmet>
+        <title>Register | Aspireon</title>
+      </Helmet>
+
       <div className="my-8 card bg-base-100 w-full max-w-md rounded">
         <form onSubmit={handelRegisterSubmit} className="card-body">
           <label className="label block">

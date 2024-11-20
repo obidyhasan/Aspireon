@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../firebase/Firebase.config";
 
@@ -16,6 +17,8 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [forgetEmail, setForgetEmail] = useState(null);
+  const [bookedService, setBookedService] = useState([]);
 
   const authInfo = {
     user,
@@ -27,6 +30,11 @@ const AuthProvider = ({ children }) => {
     handelGoogleAuth,
     loading,
     setLoading,
+    forgetEmail,
+    setForgetEmail,
+    handelForgetPassword,
+    bookedService,
+    setBookedService,
   };
 
   useEffect(() => {
@@ -66,6 +74,10 @@ const AuthProvider = ({ children }) => {
   function handelGoogleAuth() {
     const googleProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleProvider);
+  }
+
+  function handelForgetPassword(email) {
+    return sendPasswordResetEmail(auth, email);
   }
 
   return (

@@ -1,14 +1,17 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import { useContext, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import { Helmet } from "react-helmet";
+import Swal from "sweetalert2";
+
 const ServiceDetails = () => {
   const serviceData = useLoaderData();
-  const navigate = useNavigate();
   const [feedbacks, setFeedbacks] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user, setBookedService, bookedService } = useContext(AuthContext);
 
   const {
+    id,
     counselor,
     description,
     duration,
@@ -27,8 +30,42 @@ const ServiceDetails = () => {
     e.target.reset();
   }
 
+  function showErrorAlert(message) {
+    Swal.fire({
+      title: "Error!",
+      text: message,
+      icon: "error",
+    });
+  }
+
+  function showSuccessAlert(message) {
+    Swal.fire({
+      title: "Success",
+      text: message,
+      icon: "success",
+    });
+  }
+
+  function handelBookNow() {
+    // check already exits or not
+    const isFind = bookedService.find(
+      (service) => parseInt(service.id) === parseInt(id)
+    );
+
+    if (isFind) {
+      showErrorAlert(`You are already booked ${serviceName}`);
+    } else {
+      setBookedService([...bookedService, serviceData]);
+      showSuccessAlert(`You are booked ${serviceName} successfully`);
+    }
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-5 my-5 grid gap-5 grid-cols-1 lg:grid-cols-4 mb-20">
+      <Helmet>
+        <title>Service Details | Aspireon</title>
+      </Helmet>
+
       <div className="lg:col-span-3 space-y-3 border p-4 rounded">
         <figure>
           <img src={image} className="rounded w-full" alt="" />
@@ -59,10 +96,10 @@ const ServiceDetails = () => {
         </div>
         <div>
           <button
-            onClick={() => navigate(-1)}
+            onClick={handelBookNow}
             className="btn rounded bg-primary text-white hover:bg-primaryDark"
           >
-            Explore All Services
+            Book Now
           </button>
         </div>
       </div>

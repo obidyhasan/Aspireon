@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
   const { user, handelUpdateProfile, setLoading } = useContext(AuthContext);
@@ -23,6 +24,10 @@ const Profile = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-5">
+      <Helmet>
+        <title>Profile | Aspireon</title>
+      </Helmet>
+
       <div className="my-10 gap-2 flex flex-col items-center">
         <figure>
           <img

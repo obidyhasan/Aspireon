@@ -1,10 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
-  const { handelLogin, handelGoogleAuth } = useContext(AuthContext);
+  const { handelLogin, handelGoogleAuth, setLoading, setForgetEmail } =
+    useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  function handleInputChange(e) {
+    setForgetEmail(e.target.value);
+  }
+
+  function showErrorAlert(message) {
+    Swal.fire({
+      title: "Error!",
+      text: message,
+      icon: "error",
+    });
+  }
+
+  function showSuccessAlert(message) {
+    Swal.fire({
+      title: "Success",
+      text: message,
+      icon: "success",
+    });
+  }
 
   function handelOnSubmit(e) {
     e.preventDefault();
@@ -13,22 +38,36 @@ const Login = () => {
     const password = e.target.password.value;
 
     if (password.length < 6) {
-      alert("Password will be at least 6 char");
+      showErrorAlert("Password length must be at least 6 character");
       return;
     }
 
     handelLogin(email, password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
+        showSuccessAlert("Login Successfully");
+        navigate(location.state ? location.state : "/");
       })
-      .catch((error) => {
-        const errMessage = error.message;
-        console.log(errMessage.split("(")[1].split(")")[0]);
+      .catch(() => {
+        setLoading(false);
+        showErrorAlert("Invalid Email or Password");
       });
+  }
+
+  function handelGoogleLogin() {
+    handelGoogleAuth()
+      .then(() => {
+        showSuccessAlert("Login Successfully");
+        navigate(location.state ? location.state : "/");
+      })
+      .catch(() => showErrorAlert("Something went wrong"));
   }
 
   return (
     <div className="w-full height-screen flex items-center justify-center bg-base-200">
+      <Helmet>
+        <title>Forget Password | Aspireon</title>
+      </Helmet>
+
       <div className="my-8 card bg-base-100 w-full max-w-md rounded">
         <form onSubmit={handelOnSubmit} className="card-body">
           <label className="label block">
@@ -42,6 +81,7 @@ const Login = () => {
               <span className="label-text font-medium">Email</span>
             </label>
             <input
+              onChange={handleInputChange}
               type="email"
               name="email"
               placeholder="email"
@@ -87,7 +127,7 @@ const Login = () => {
           <span className="text-sm">Or</span>
         </div>
         <button
-          onClick={handelGoogleAuth}
+          onClick={handelGoogleLogin}
           className="btn mx-8 mb-8 mt-2 btn-outline rounded border-primary text-primary"
         >
           <FcGoogle className="w-5 h-5" /> Login with Google

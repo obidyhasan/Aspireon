@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import Service from "./Service";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Services = () => {
+  AOS.init();
   const [services, setServices] = useState([]);
 
   useEffect(() => {
@@ -13,7 +16,7 @@ const Services = () => {
   return (
     <div>
       <div className="space-y-3">
-        <h1 className="text-center font-bold text-3xl">
+        <h1 data-aos="zoom-out" className="text-center font-bold text-3xl">
           Expert Career <span className="text-primary">Services</span>
         </h1>
         <p className="max-w-2xl text-sm text-center mx-auto text-gray-600">

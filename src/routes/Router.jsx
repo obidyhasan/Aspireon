@@ -8,6 +8,7 @@ import Register from "../components/Register";
 import ForgetPassword from "../components/ForgetPassword";
 import PrivateRouter from "./PrivateRouter";
 import ServiceDetails from "../components/ServiceDetails";
+import Appointment from "../components/Appointment";
 
 const Router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const Router = createBrowserRouter([
             <Profile></Profile>
           </PrivateRouter>
         ),
+      },
+      {
+        path: "/appointment",
+        element: <Appointment></Appointment>,
       },
       {
         path: "/login",

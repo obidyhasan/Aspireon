@@ -12,6 +12,12 @@ const Navbar = () => {
       </NavLink>
 
       {user && (
+        <NavLink className="hover:text-gray-700" to={"/appointment"}>
+          Appointment
+        </NavLink>
+      )}
+
+      {user && (
         <NavLink className="hover:text-gray-700" to={"/profile"}>
           My Profile
         </NavLink>
@@ -62,11 +68,17 @@ const Navbar = () => {
           <div className="navbar-end">
             {user ? (
               <div className="flex items-center gap-3">
-                <img
-                  src={user.photoURL}
-                  className="w-10 h-10 rounded-full object-cover"
-                  alt=""
-                />
+                <div
+                  className="tooltip tooltip-left"
+                  data-tip={user && user.displayName}
+                >
+                  <img
+                    src={user && user.photoURL}
+                    className="cursor-pointer w-10 h-10 rounded-full object-cover"
+                    alt=""
+                  />
+                </div>
+
                 <button
                   onClick={handelLogout}
                   className="btn rounded bg-primary text-white hover:bg-primaryDark"
