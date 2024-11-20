@@ -6,6 +6,8 @@ import Profile from "../components/Profile";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import ForgetPassword from "../components/ForgetPassword";
+import PrivateRouter from "./PrivateRouter";
+import ServiceDetails from "../components/ServiceDetails";
 
 const Router = createBrowserRouter([
   {
@@ -32,6 +34,23 @@ const Router = createBrowserRouter([
       {
         path: "/forgetPassword",
         element: <ForgetPassword></ForgetPassword>,
+      },
+      {
+        path: "/serviceDetails/:serviceId",
+        loader: async ({ params }) => {
+          const res = await fetch("/ServicesData.json");
+          const data = await res.json();
+
+          const serviceData = data.find(
+            (service) => parseInt(service.id) === parseInt(params.serviceId)
+          );
+          return serviceData;
+        },
+        element: (
+          <PrivateRouter>
+            <ServiceDetails></ServiceDetails>
+          </PrivateRouter>
+        ),
       },
     ],
   },

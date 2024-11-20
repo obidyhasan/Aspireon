@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Service = ({ service }) => {
-  const { counselor, image, serviceName, pricing, category } = service;
+  const { id, counselor, image, serviceName, pricing, category } = service;
 
   return (
     <div className="border p-4 rounded flex flex-col gap-3">
@@ -23,7 +23,7 @@ const Service = ({ service }) => {
       </div>
       <div>
         <Link
-          to={"/"}
+          to={`/serviceDetails/${id}`}
           className="btn w-full rounded bg-primary text-white hover:bg-primaryDark"
         >
           Learn More
