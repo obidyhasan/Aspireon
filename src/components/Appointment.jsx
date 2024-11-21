@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-
+import { Helmet } from "react-helmet";
 import AppointmentCard from "./AppointmentCard";
 
 const Appointment = () => {
@@ -8,6 +8,10 @@ const Appointment = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-5">
+      <Helmet>
+        <title>Appointment | Aspireon</title>
+      </Helmet>
+
       <h2 className="text-xl font-bold">My Appointment</h2>
       <div className="my-8 grid grid-cols-1 gap-5">
         {bookedService.length ? (
