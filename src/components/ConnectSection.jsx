@@ -1,19 +1,11 @@
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
-
 const ConnectSection = () => {
   function handelForm(e) {
     e.preventDefault();
     e.target.reset();
   }
 
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
   return (
-    <div className="border py-10 rounded">
+    <div className="border py-10 rounded p-4">
       <div className="space-y-3">
         <h1 className="text-center font-bold text-3xl">
           <span className="text-primary">Connect</span> With Us

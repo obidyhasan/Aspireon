@@ -1,17 +1,10 @@
 import faqImg from "../assets/faq.png";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
 
 const FAQSection = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
   return (
     <div>
       <div className="space-y-3">
-        <h1 data-aos="zoom-out" className="text-center font-bold text-3xl">
+        <h1 className="text-center font-bold text-3xl">
           Frequently Asked <span className="text-primary">Questions</span>
         </h1>
         <p className="max-w-2xl text-sm text-center mx-auto text-gray-600">
